@@ -28,7 +28,7 @@ const ServerDrivenForm: React.FC<ServerDrivenFormProps> = ({ schema, onSubmit })
   const getFormConfig = () => {
     return {
       layout: schema.form?.layout || 'vertical',
-      className: `animate-slideIn ${schema.form?.cssClass || ''}`,
+      className: `${schema.form?.cssClass || ''}`,
       style: schema.form?.style || {},
       validateTrigger: schema.form?.validateTrigger || ['onBlur', 'onChange']
     };
@@ -37,7 +37,7 @@ const ServerDrivenForm: React.FC<ServerDrivenFormProps> = ({ schema, onSubmit })
   // Get container configuration
   const getContainerConfig = () => {
     return {
-      className: schema.container?.cssClass || 'form-container',
+      className: schema.container?.cssClass || '',
       style: schema.container?.style || {}
     };
   };
@@ -53,9 +53,7 @@ const ServerDrivenForm: React.FC<ServerDrivenFormProps> = ({ schema, onSubmit })
         requiredMark
       >
         {schema.fields.map((field, index) => (
-          <div key={index} className="mb-6">
-            <FormField field={field} form={form} />
-          </div>
+          <FormField key={index} field={field} form={form} />
         ))}
         
         <FormActions actions={schema.actions || []} form={form} />
