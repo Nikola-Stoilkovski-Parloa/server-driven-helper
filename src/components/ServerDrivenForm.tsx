@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Form, Input, Button, Select, Checkbox, Radio, 
@@ -193,45 +192,93 @@ const ServerDrivenForm: React.FC<ServerDrivenFormProps> = ({ schema, onSubmit })
     }
   };
 
+  // Render breadcrumb from schema
+  const renderBreadcrumb = () => {
+    if (!schema.breadcrumb || schema.breadcrumb.length === 0) {
+      return null;
+    }
+    
+    return (
+      <Breadcrumb 
+        items={schema.breadcrumb.map((item, index) => ({
+          title: (
+            <span className={index === schema.breadcrumb!.length - 1 ? 'breadcrumb-active' : 'breadcrumb-item'}>
+              {item.label}
+            </span>
+          ),
+          href: item.url
+        }))}
+        className="mb-4"
+      />
+    );
+  };
+
+  // Render title from schema
+  const renderTitle = () => {
+    if (!schema.title) {
+      return null;
+    }
+    
+    return <h1 className="form-title">{schema.title}</h1>;
+  };
+
+  // Render form fields from schema
+  const renderFields = () => {
+    return schema.fields.map((field, index) => (
+      <div key={index} className="mb-6">
+        {renderField(field)}
+      </div>
+    ));
+  };
+
+  // Render form actions from schema
+  const renderActions = () => {
+    if (!schema.actions || schema.actions.length === 0) {
+      return null;
+    }
+    
+    return (
+      <div className="flex justify-end gap-3 mt-8">
+        {schema.actions.map((action, index) => (
+          <span key={index}>
+            {renderAction(action)}
+          </span>
+        ))}
+      </div>
+    );
+  };
+
+  // Get form layout configuration
+  const getFormConfig = () => {
+    return {
+      layout: schema.form?.layout || 'vertical',
+      className: `animate-slideIn ${schema.form?.cssClass || ''}`,
+      style: schema.form?.style || {},
+      validateTrigger: schema.form?.validateTrigger || ['onBlur', 'onChange']
+    };
+  };
+
+  // Get container configuration
+  const getContainerConfig = () => {
+    return {
+      className: schema.container?.cssClass || 'form-container',
+      style: schema.container?.style || {}
+    };
+  };
+
   return (
-    <div className="form-container">
-      {schema.breadcrumb && (
-        <Breadcrumb 
-          items={schema.breadcrumb.map((item, index) => ({
-            title: (
-              <span className={index === schema.breadcrumb!.length - 1 ? 'breadcrumb-active' : 'breadcrumb-item'}>
-                {item.label}
-              </span>
-            ),
-            href: item.url
-          }))}
-          className="mb-4"
-        />
-      )}
-      
-      <h1 className="form-title">{schema.title}</h1>
+    <div {...getContainerConfig()}>
+      {renderBreadcrumb()}
+      {renderTitle()}
       
       <Form
         form={form}
-        layout="vertical"
+        {...getFormConfig()}
         onFinish={handleSubmit}
         requiredMark
-        validateTrigger={['onBlur', 'onChange']}
-        className="animate-slideIn"
       >
-        {schema.fields.map((field, index) => (
-          <div key={index} className="mb-6">
-            {renderField(field)}
-          </div>
-        ))}
-        
-        <div className="flex justify-end gap-3 mt-8">
-          {schema.actions && schema.actions.map((action, index) => (
-            <span key={index}>
-              {renderAction(action)}
-            </span>
-          ))}
-        </div>
+        {renderFields()}
+        {renderActions()}
       </Form>
     </div>
   );

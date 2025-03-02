@@ -10,7 +10,7 @@ export interface UISchemaField {
   actions?: UISchemaAction[];
   fields?: UISchemaField[];
   defaultValue?: any;
-  // Add support for custom HTML elements
+  // Support for custom HTML elements
   htmlContent?: string;
   cssClass?: string;
   style?: Record<string, string>;
@@ -29,4 +29,16 @@ export interface UISchema {
   breadcrumb?: Array<{ label: string; url?: string }>;
   fields: UISchemaField[];
   actions?: UISchemaAction[];
+  // Form container configuration
+  container?: {
+    cssClass?: string;
+    style?: Record<string, string>;
+  };
+  // Form layout configuration
+  form?: {
+    layout?: 'vertical' | 'horizontal' | 'inline';
+    cssClass?: string;
+    style?: Record<string, string>;
+    validateTrigger?: string[];
+  };
 }

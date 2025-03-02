@@ -12,12 +12,10 @@ const VOIPConfiguration = () => {
 
   return (
     <div className="min-h-screen bg-[#f0f2f5] py-12 px-4">
-      <div className="max-w-4xl mx-auto">
-        <ServerDrivenForm
-          schema={voipConfigSchema}
-          onSubmit={handleSubmit}
-        />
-      </div>
+      <ServerDrivenForm
+        schema={voipConfigSchema}
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 };

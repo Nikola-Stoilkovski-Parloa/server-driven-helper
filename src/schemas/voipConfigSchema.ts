@@ -7,6 +7,14 @@ export const voipConfigSchema: UISchema = {
     { label: "VOIP Configuration", url: "/voip-configuration" },
     { label: "New VOIP Configuration" }
   ],
+  container: {
+    cssClass: "form-container max-w-4xl mx-auto",
+  },
+  form: {
+    layout: "vertical",
+    cssClass: "animate-slideIn",
+    validateTrigger: ["onBlur", "onChange"]
+  },
   fields: [
     {
       type: "html",
