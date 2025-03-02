@@ -1,6 +1,6 @@
 
 import React from 'react';
-import ServerDrivenForm from '@/components/ServerDrivenForm';
+import ServerDrivenForm from '@/components/server-driven-form';
 import { voipConfigSchema } from '@/schemas/voipConfigSchema';
 import { toast } from 'sonner';
 
