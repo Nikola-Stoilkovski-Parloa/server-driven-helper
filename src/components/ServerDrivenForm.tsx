@@ -28,7 +28,31 @@ const ServerDrivenForm: React.FC<ServerDrivenFormProps> = ({ schema, onSubmit })
     }
   };
 
+  // Function to safely render HTML content
+  const renderHTML = (htmlContent: string) => {
+    return <div dangerouslySetInnerHTML={{ __html: htmlContent }} />;
+  };
+
   const renderField = (field: UISchemaField) => {
+    // Handle custom HTML element type
+    if (field.type === 'html') {
+      const style = field.style || {};
+      const className = field.cssClass || '';
+      const attributes = field.attributes || {};
+      
+      return (
+        <div 
+          className={className}
+          style={style}
+          {...attributes}
+        >
+          {field.htmlContent && renderHTML(field.htmlContent)}
+          {field.label && <div className="field-label">{field.label}</div>}
+          {field.description && <div className="field-description">{field.description}</div>}
+        </div>
+      );
+    }
+
     switch (field.type) {
       case 'input':
         return (
@@ -110,7 +134,7 @@ const ServerDrivenForm: React.FC<ServerDrivenFormProps> = ({ schema, onSubmit })
 
       case 'section':
         return (
-          <div className="mb-6">
+          <div className={`mb-6 ${field.cssClass || ''}`} style={field.style || {}}>
             {field.label && <h3 className="text-base font-medium mb-2">{field.label}</h3>}
             {field.description && <p className="text-sm text-gray-500 mb-4">{field.description}</p>}
             {field.fields && field.fields.map((subField, idx) => (
@@ -120,6 +144,12 @@ const ServerDrivenForm: React.FC<ServerDrivenFormProps> = ({ schema, onSubmit })
             ))}
           </div>
         );
+
+      case 'divider':
+        return <Divider className={field.cssClass || ''} style={field.style || {}} />;
+
+      case 'space':
+        return <div className={`h-${field.name || '4'} ${field.cssClass || ''}`} style={field.style || {}}></div>;
 
       default:
         return null;

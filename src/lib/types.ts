@@ -10,6 +10,11 @@ export interface UISchemaField {
   actions?: UISchemaAction[];
   fields?: UISchemaField[];
   defaultValue?: any;
+  // Add support for custom HTML elements
+  htmlContent?: string;
+  cssClass?: string;
+  style?: Record<string, string>;
+  attributes?: Record<string, string>;
 }
 
 export interface UISchemaAction {
